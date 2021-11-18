@@ -43,7 +43,6 @@ export interface ComposerProps {
   disableComposer?: boolean
   onTextChanged?(text: string): void
   onInputSizeChanged?(layout: { width: number; height: number }): void
-  onFocus?(): void
 }
 
 export default class Composer extends React.Component<ComposerProps> {
@@ -60,7 +59,6 @@ export default class Composer extends React.Component<ComposerProps> {
     keyboardAppearance: 'default',
     onTextChanged: () => {},
     onInputSizeChanged: () => {},
-    onFocus: () => {},
   }
 
   static propTypes = {
@@ -70,7 +68,6 @@ export default class Composer extends React.Component<ComposerProps> {
     placeholderTextColor: PropTypes.string,
     textInputProps: PropTypes.object,
     onTextChanged: PropTypes.func,
-    onFocus: PropTypes.func,
     onInputSizeChanged: PropTypes.func,
     multiline: PropTypes.bool,
     disableComposer: PropTypes.bool,
@@ -104,10 +101,6 @@ export default class Composer extends React.Component<ComposerProps> {
     this.props.onTextChanged!(text)
   }
 
-  onFocus = () => {
-    this.props.onFocus!()
-  }
-
   render() {
     return (
       <TextInput
@@ -119,7 +112,6 @@ export default class Composer extends React.Component<ComposerProps> {
         multiline={this.props.multiline}
         editable={!this.props.disableComposer}
         onLayout={this.onLayout}
-        onFocus={this.onFocus}
         onChangeText={this.onChangeText}
         style={[
           styles.textInput,
