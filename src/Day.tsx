@@ -10,7 +10,7 @@ import {
   TextProps,
 } from 'react-native'
 import dayjs from 'dayjs'
-
+import moment from 'moment'
 import Color from './Color'
 
 import { StylePropType, isSameDay } from './utils'
@@ -92,9 +92,7 @@ export default class Day<
         <View style={[styles.container, containerStyle]}>
           <View style={wrapperStyle}>
             <Text style={[styles.text, textStyle]} {...textProps}>
-              {dayjs(currentMessage.createdAt)
-                .locale(this.context.getLocale())
-                .format(dateFormat)}
+            {moment(currentMessage.createdAt, 'MMMM Do, YYYY, h:mm a').format('MMM Do, YYYY')}
             </Text>
           </View>
         </View>
