@@ -9,7 +9,7 @@ import {
   TextStyle,
   TextProps,
 } from 'react-native'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import moment from 'moment'
 import Color from './Color'
 
@@ -78,7 +78,7 @@ export default class Day<
 
   render() {
     const {
-      dateFormat,
+      // dateFormat,
       currentMessage,
       previousMessage,
       containerStyle,
@@ -92,7 +92,9 @@ export default class Day<
         <View style={[styles.container, containerStyle]}>
           <View style={wrapperStyle}>
             <Text style={[styles.text, textStyle]} {...textProps}>
-            {moment(currentMessage.createdAt, 'MMMM Do, YYYY, h:mm a').format('MMM Do, YYYY')}
+              {moment(currentMessage.createdAt, 'MMMM Do, YYYY, h:mm a').format(
+                'MMM Do, YYYY',
+              )}
             </Text>
           </View>
         </View>
