@@ -1,12 +1,12 @@
 {
-  "name": "react-native-gifted-chat",
+  "name": "@teambuildr/react-native-gifted-chat",
   "version": "0.16.4",
   "description": "The most complete chat UI for React Native",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FaridSafi/react-native-gifted-chat.git"
+    "url": "git+https://github.com/TeamBuildr/react-native-gifted-chat.git"
   },
   "keywords": [
     "android",

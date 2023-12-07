@@ -86,20 +86,21 @@ export default class Day<
       textStyle,
       textProps,
     } = this.props
-    let dateString = 'Invalid Date';
-    if(currentMessage && currentMessage.createdAt) {
-      if(typeof currentMessage.createdAt === 'string') {
-        dateString = moment(currentMessage.createdAt, 'MMMM Do, YYYY, h:mm a').format(
-          'MMM Do, YYYY',
-        );
+    let dateString = 'Invalid Date'
+    if (currentMessage && currentMessage.createdAt) {
+      if (typeof currentMessage.createdAt === 'string') {
+        dateString = moment(
+          currentMessage.createdAt,
+          'MMMM Do, YYYY, h:mm a',
+        ).format('MMM Do, YYYY')
       }
-      if(typeof currentMessage.createdAt === 'number') {
+      if (typeof currentMessage.createdAt === 'number') {
         dateString = dayjs(currentMessage.createdAt)
           .locale(this.context.getLocale())
           .format(dateFormat)
       }
     }
-    
+
     if (currentMessage && !isSameDay(currentMessage, previousMessage!)) {
       return (
         <View style={[styles.container, containerStyle]}>
