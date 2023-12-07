@@ -51,7 +51,7 @@ export interface QuickReplies {
 export interface IMessage {
   _id: string | number
   text: string
-  createdAt: Date | number
+  createdAt: Date | number | string
   user: User
   image?: string
   video?: string
