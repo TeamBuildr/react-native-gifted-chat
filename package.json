@@ -102,6 +102,7 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.6.0",
+    "@types/luxon": "^3.4.2",
     "dayjs": "*",
     "luxon": "^3.5.0",
     "prop-types": "^15.7.2",
