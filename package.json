@@ -30,14 +30,14 @@
     "lint": "tslint --project .",
     "lint:fix": "./node_modules/.bin/tslint ./src/**/*.{ts,tsx} --fix",
     "tsc": "node_modules/.bin/tsc --noEmit",
-    "start": "yarn config:dev && expo start",
-    "start:web": "yarn config:dev && expo start -w --dev",
+    "start": "npm run config:dev && expo start",
+    "start:web": "npm run config:dev && expo start -w --dev",
     "build": "rm -rf lib/ && node_modules/.bin/tsc && cp flow-typedefs/*.js.flow lib/",
     "test": "TZ=Europe/Paris jest --no-watchman",
     "test:watch": "TZ=Europe/Paris jest --watch",
     "test:coverage": "TZ=Europe/Paris jest --coverage",
-    "prepublishOnly": "yarn lint && yarn build && yarn test && yarn config:npm",
-    "postpublish": "yarn config:dev",
+    "prepublishOnly": "npm run lint && npm run build && npm run test && npm run config:npm",
+    "postpublish": "npm run config:dev",
     "prettier": "./node_modules/.bin/prettier --write \"src/**/*.{ts,tsx}\""
   },
   "jest": {
@@ -116,10 +116,5 @@
     "dayjs": "*",
     "react": "*",
     "react-native": "*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint:fix && yarn prettier && yarn tsc"
-    }
   }
 }
