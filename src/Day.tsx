@@ -9,13 +9,21 @@ import {
   TextStyle,
   TextProps,
 } from 'react-native'
-import dayjs from 'dayjs'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import Color from './Color'
 
 import { StylePropType, isSameDay } from './utils'
 import { DATE_FORMAT } from './Constant'
 import { IMessage } from './Models'
+
+/**
+ * Helper function to get ordinal suffix for numbers (1st, 2nd, 3rd, etc.)
+ */
+const getOrdinal = (n: number): string => {
+  const s = ['th', 'st', 'nd', 'rd']
+  const v = n % 100
+  return n + (s[(v - 20) % 10] || s[v] || s[0])
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -76,9 +84,35 @@ export default class Day<
     dateFormat: PropTypes.string,
   }
 
+  formatDate(createdAt: string | number | Date | undefined): string | null {
+    if (!createdAt) return null
+
+    try {
+      let dt: DateTime
+      if (typeof createdAt === 'string') {
+        // Try parsing with Luxon's fromISO first, then fromFormat as fallback
+        dt = DateTime.fromISO(createdAt)
+        if (!dt.isValid) {
+          dt = DateTime.fromFormat(createdAt, 'MMMM d, yyyy h:mm:ss a')
+        }
+      } else if (typeof createdAt === 'number') {
+        dt = DateTime.fromMillis(createdAt)
+      } else {
+        dt = DateTime.fromJSDate(createdAt)
+      }
+
+      if (dt.isValid) {
+        const day = dt.day
+        return `${dt.toFormat('MMM')} ${getOrdinal(day)}, ${dt.toFormat('yyyy')}`
+      }
+    } catch (error) {
+      console.warn('Error formatting date:', error)
+    }
+    return null
+  }
+
   render() {
     const {
-      dateFormat,
       currentMessage,
       previousMessage,
       containerStyle,
@@ -86,31 +120,21 @@ export default class Day<
       textStyle,
       textProps,
     } = this.props
-    let dateString = 'Invalid Date'
-    if (currentMessage && currentMessage.createdAt) {
-      if (typeof currentMessage.createdAt === 'string') {
-        dateString = moment(
-          currentMessage.createdAt,
-          'MMMM Do, YYYY, h:mm a',
-        ).format('MMM Do, YYYY')
-      }
-      if (typeof currentMessage.createdAt === 'number') {
-        dateString = dayjs(currentMessage.createdAt)
-          .locale(this.context.getLocale())
-          .format(dateFormat)
-      }
-    }
 
-    if (currentMessage && !isSameDay(currentMessage, previousMessage!)) {
-      return (
-        <View style={[styles.container, containerStyle]}>
-          <View style={wrapperStyle}>
-            <Text style={[styles.text, textStyle]} {...textProps}>
-              {dateString}
-            </Text>
+    if (currentMessage?.createdAt) {
+      const dateString = this.formatDate(currentMessage.createdAt)
+      
+      if (dateString && (!previousMessage || !isSameDay(currentMessage, previousMessage))) {
+        return (
+          <View style={[styles.container, containerStyle]}>
+            <View style={wrapperStyle}>
+              <Text style={[styles.text, textStyle]} {...textProps}>
+                {dateString}
+              </Text>
+            </View>
           </View>
-        </View>
-      )
+        )
+      }
     }
     return null
   }
